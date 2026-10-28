@@ -29,6 +29,7 @@ class PdfEditor:
     def download(self) -> None:
         request: Request = Request(self.release.asset.download_url)
 
+        PdfEditor.INSTALL_DIR_PATH.mkdir(parents=True, exist_ok=True)
         tmp_path: Path = PdfEditor.ASSET_PATH.with_name(PdfEditor.ASSET_PATH.name + ".part")
         hash = sha256()
         downloaded_size: int = 0
@@ -55,4 +56,4 @@ class PdfEditor:
                     print("ダウンロードが完了しました。")
 
         finally:
-            tmp_path.unlink()
+            tmp_path.unlink(missing_ok=True)
